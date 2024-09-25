@@ -1,27 +1,31 @@
-// Testbench for Full Adder
-module full_adder_tb;
+module full_add_tb;
+reg a;
+reg b;
+reg c;
+ 
+wire s;
+wire co;
 
-    reg A, B, Cin;        // Inputs (reg type)
-    wire Sum, Cout;       // Outputs (wire type)
+full_add uut(
+	.s(s),
+	.co(co),
+	.a(a),
+	.b(b),
+	.c(c)
+);
 
-    // Instantiate the Full Adder
-    full_adder dut (.A(A), .B(B), .Cin(Cin), .Sum(Sum), .Cout(Cout));
 
-    // Apply stimuli
-    initial begin
-        $monitor("A = %b, B = %b, Cin = %b | Sum = %b, Cout = %b", A, B, Cin, Sum, Cout);  // Display inputs and outputs
-        
-        // Test all possible input combinations
-        A = 0; B = 0; Cin = 0; #10;    // Wait for 10 time units
-        A = 0; B = 0; Cin = 1; #10;
-        A = 0; B = 1; Cin = 0; #10;
-        A = 0; B = 1; Cin = 1; #10;
-        A = 1; B = 0; Cin = 0; #10;
-        A = 1; B = 0; Cin = 1; #10;
-        A = 1; B = 1; Cin = 0; #10;
-        A = 1; B = 1; Cin = 1; #10;
+initial begin 
+	{a,b,c}=3'b000;
+	#2{a,b,c}=3'b001;
+	#2{a,b,c}=3'b010;
+	#2{a,b,c}=3'b011;
+	#2{a,b,c}=3'b100;
+	#2{a,b,c}=3'b101;
+	#2{a,b,c}=3'b110;
+	#2{a,b,c}=3'b111;
+end
 
-        $finish;  // End simulation
-    end
-
-endmodule
+	initial $monitor("time = %g,s=%b,co=%b,a=%b,b=%b,c=%b",$time,s,co,a,b,c);
+	initial #20 $finish;
+endmodule 
